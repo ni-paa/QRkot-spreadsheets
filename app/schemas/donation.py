@@ -17,7 +17,11 @@ class DonationDB(BaseModel):
     comment: Optional[str] = None
     create_date: datetime
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(
+        from_attributes=True,
+        extra='forbid',
+        exclude_none=True   # <-- добавляем эту строку
+    )
 
 
 class DonationForUser(BaseModel):

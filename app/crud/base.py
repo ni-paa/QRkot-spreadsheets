@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.charity_project import CharityProject
@@ -118,6 +118,21 @@ class CRUDCharityProject(CRUDBase):
     ) -> CharityProject:
         await session.delete(project)
         await session.commit()
+
+    @classmethod
+    async def get_projects_by_completion_rate(
+        cls, session: AsyncSession
+    ) -> List[CharityProject]:
+        """Возвращает закрытые проекты, отсортированные по времени сбора."""
+        close_jd = func.julianday(CharityProject.close_date)
+        create_jd = func.julianday(CharityProject.create_date)
+        time_diff = close_jd - create_jd
+        result = await session.execute(
+            select(CharityProject)
+            .where(CharityProject.fully_invested.is_(True))
+            .order_by(time_diff.asc())
+        )
+        return list(result.scalars().all())
 
 
 class CRUDDonation(CRUDBase):

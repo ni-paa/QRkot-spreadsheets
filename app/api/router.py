@@ -1,6 +1,7 @@
+# app/api/router.py
 from fastapi import APIRouter
 
-from app.api.endpoints import charity_project, donation
+from app.api.endpoints import charity_project, donation, google
 
 api_router = APIRouter()
 api_router.include_router(
@@ -12,4 +13,9 @@ api_router.include_router(
     donation.router,
     prefix='/donation',
     tags=['donations'],
+)
+api_router.include_router(
+    google.router,
+    prefix='/google',
+    tags=['Google'],
 )

@@ -6,6 +6,7 @@
 #
 
 -i https://pypi.org/simple
+aiogoogle==5.1.0
 aiosqlite==0.17.0
 alembic==1.7.7
 annotated-types==0.6.0

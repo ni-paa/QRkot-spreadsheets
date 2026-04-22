@@ -36,7 +36,11 @@ async def get_all_donations(
     return await CRUDDonation.get_multi_ordered_by_create_date(session)
 
 
-@router.post('/', response_model=DonationDB)
+@router.post(
+    '/',
+    response_model=DonationDB,
+    response_model_exclude_none=True,
+)
 async def create_donation(
     donation_in: DonationCreate,
     session: AsyncSession = Depends(get_async_session),
