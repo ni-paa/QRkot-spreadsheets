@@ -4,20 +4,20 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field, PositiveInt
 
 
-class CharityProjectCreate(BaseModel):
+class BaseCharityProject():
+    model_config = ConfigDict(extra='forbid')
+
+
+class CharityProjectCreate(BaseModel, BaseCharityProject):
     name: str = Field(..., min_length=5, max_length=100)
     description: str = Field(..., min_length=10)
     full_amount: PositiveInt
 
-    model_config = ConfigDict(extra='forbid')
 
-
-class CharityProjectUpdate(BaseModel):
+class CharityProjectUpdate(BaseModel, BaseCharityProject):
     name: Optional[str] = Field(None, max_length=100, min_length=1)
     description: Optional[str] = Field(None, min_length=10)
     full_amount: Optional[PositiveInt] = None
-
-    model_config = ConfigDict(extra='forbid')
 
 
 class CharityProjectDB(BaseModel):

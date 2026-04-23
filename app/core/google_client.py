@@ -6,10 +6,10 @@ from aiogoogle.auth.creds import ServiceAccountCreds
 
 from app.core.config import settings
 
-SCOPES = [
+SCOPES = (
     'https://www.googleapis.com/auth/drive.file',
     'https://www.googleapis.com/auth/spreadsheets'
-]
+)
 
 INFO = {
     'type': settings.type,

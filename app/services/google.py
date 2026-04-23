@@ -39,19 +39,16 @@ async def get_projects_data(session: AsyncSession) -> List[dict]:
     projects = await CRUDCharityProject.get_projects_by_completion_rate(
         session
     )
-    data = []
-    for project in projects:
-        # Вычисляем время сбора в днях
-        delta = project.close_date - project.create_date
-        days = delta.days
-        data.append([
+    return [
+        (
             project.name,
-            str(days),
+            str((project.close_date - project.create_date).days),
             project.description,
             project.full_amount,
-            project.invested_amount
-        ])
-    return data
+            project.invested_amount,
+        )
+        for project in projects
+    ]
 
 
 async def create_spreadsheets(aiogoogle: Aiogoogle) -> str:
